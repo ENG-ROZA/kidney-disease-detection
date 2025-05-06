@@ -1,15 +1,21 @@
+import 'dart:typed_data'; // Import for Uint8List
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/article_details.dart';
 import 'package:graduation_project/models/articles_model.dart';
 import 'package:graduation_project/models/doctors_details_model.dart';
 import 'package:graduation_project/models/doctors_model.dart';
-import 'package:graduation_project/models/review_model.dart';
+import 'package:graduation_project/models/get_my_review.dart';
+import 'package:graduation_project/models/scan_results_details.dart';
 import 'package:graduation_project/models/scan_results_model.dart';
+import 'package:graduation_project/models/top_rated_doctors.dart';
 import 'package:graduation_project/models/user_model.dart';
 import 'package:graduation_project/models/user_review.dart';
 import 'package:graduation_project/shared/utils/constants.dart';
 import 'package:graduation_project/shared/utils/dialogs.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:image_picker/image_picker.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ApiManager {
   static final Dio _dio = Dio(
@@ -168,7 +174,6 @@ class ApiManager {
           error: response.data["message"] ?? "OTP verification failed",
         );
       }
-
       return response;
     } on DioException catch (e) {
       String errorMessage = "Network error occurred. Please try again.";
@@ -232,7 +237,6 @@ class ApiManager {
       );
 
       if (response.statusCode == 200) {
-        // Parse the response using our model
         return ArticlesResponse.fromJson(response.data);
       } else {
         throw Exception('Failed to load articles: ${response.statusMessage}');
@@ -338,6 +342,21 @@ class ApiManager {
     }
   }
 
+  static Future<TopRatedDoctors> getTopRatedDoctors() async {
+    try {
+      final response = await _dio.get(
+        "${Constants.baseUrl}/doctor/topRated",
+      );
+      if (response.statusCode == 200) {
+        return TopRatedDoctors.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load Doctors: ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      throw Exception('API call failed: ${e.message}');
+    }
+  }
+
   static Future<DoctorsDetailsModel> getDoctorsDetails(String doctorId) async {
     try {
       final response = await _dio.get(
@@ -354,14 +373,14 @@ class ApiManager {
     }
   }
 
-  static Future<ReviewModel> getAllReviews(String doctorId) async {
+  static Future<UserReviewModel> getAllReviews(String doctorId) async {
     try {
       final response = await _dio.get(
         "${Constants.baseUrl}/review/all",
         queryParameters: {"doctorId": doctorId},
       );
       if (response.statusCode == 200) {
-        return ReviewModel.fromJson(response.data);
+        return UserReviewModel.fromJson(response.data);
       } else {
         throw Exception('Failed to load reviews: ${response.statusMessage}');
       }
@@ -370,10 +389,52 @@ class ApiManager {
     }
   }
 
+  static Future<Response?> deleteReview(
+      {required BuildContext context,
+      required String token,
+      required String doctorId}) async {
+    try {
+      final response = await _dio.delete(
+        "${Constants.baseUrl}/review/delete/$doctorId",
+        options: Options(
+          headers: {
+            "token": "TOKEN__$token",
+          },
+        ),
+      );
+      if (response.data["success"] != true) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: response.data["message"] ?? "delete review failed",
+        );
+      }
+
+      return response;
+    } on DioException catch (e) {
+      String errorMessage = "Network error occurred. Please try again.";
+
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+          errorMessage = "Request timed out. Check your internet connection.";
+          break;
+        case DioExceptionType.badResponse:
+          errorMessage =
+              e.response?.data?["message"] ?? "Server error occurred";
+          break;
+        default:
+          errorMessage = "Network error: ${e.message}";
+      }
+      showError(context, errorMessage);
+      return null;
+    }
+  }
+
   static Future<Response?> addDoctorReview(
       {required String token,
       required String comment,
-      required int rating,
+      required double rating,
       required String doctorId,
       required BuildContext context}) async {
     try {
@@ -405,8 +466,8 @@ class ApiManager {
       return null;
     }
   }
- static Future<UserReviewModel> getUserReview(
-      String token) async {
+
+  static Future<UserReviewModel> getUserReview(String token) async {
     try {
       final response = await _dio.get("${Constants.baseUrl}/review/userReviews",
           options: Options(
@@ -424,6 +485,28 @@ class ApiManager {
       throw Exception('API call failed: ${e.message}');
     }
   }
+
+  static Future<GetMyReview> getMyReviewForDoctor(
+      String token, String doctorId) async {
+    try {
+      final response = await _dio.get(
+          "${Constants.baseUrl}/review/reviewForDoctor/$doctorId",
+          options: Options(
+            headers: {
+              "token": "TOKEN__$token",
+            },
+          ));
+      if (response.statusCode == 200) {
+        return GetMyReview.fromJson(response.data);
+      } else {
+        throw Exception(
+            'Failed to load your review : ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      throw Exception('API call failed: ${e.message}');
+    }
+  }
+
   static Future<UserModel> getUserData(String token) async {
     try {
       final response = await _dio.get("${Constants.baseUrl}/user",
@@ -459,6 +542,77 @@ class ApiManager {
       }
     } on DioException catch (e) {
       throw Exception('API call failed: ${e.message}');
+    }
+  }
+
+  static Future<ScanResultDetails> getScanResultsDetails(
+    String token,
+    String scanResultId,
+  ) async {
+    try {
+      final response =
+          await _dio.get("${Constants.baseUrl}/user/pastResults/$scanResultId",
+              options: Options(
+                headers: {
+                  "token": "TOKEN__$token",
+                },
+              ));
+      if (response.statusCode == 200) {
+        return ScanResultDetails.fromJson(response.data);
+      } else {
+        throw Exception(
+            'Failed to load scan results details : ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      throw Exception('API call failed: ${e.message}');
+    }
+  }
+
+  static Future<Response?> postScan({
+    required String token,
+    required XFile imageFile,
+    required BuildContext context,
+  }) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+
+      FormData formData = FormData.fromMap({
+        "scanFile": MultipartFile.fromBytes(
+          bytes,
+          filename: imageFile.name,
+          contentType:
+              MediaType.parse('image/${imageFile.name.split('.').last}'),
+        ),
+      });
+
+      final response = await _dio.post(
+        "${Constants.baseUrl}/user/diagnose",
+        data: formData,
+        options: Options(
+          headers: {"token": "TOKEN__$token"},
+          contentType: "multipart/form-data",
+        ),
+      );
+
+      if (response.data["success"] != true) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: response.data["message"] ?? "Upload failed",
+        );
+      }
+
+      return response;
+    } on DioException catch (e) {
+      if (context.mounted) {
+        showError(context, e.message ?? "An error occurred");
+      }
+      return null;
+    } catch (e) {
+      if (context.mounted) {
+        showError(context, "Error uploading image: ${e.toString()}");
+      }
+      return null;
     }
   }
 }

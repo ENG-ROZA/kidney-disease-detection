@@ -10,6 +10,7 @@ import 'package:graduation_project/shared/utils/colors.dart';
 import 'package:graduation_project/shared/utils/dialogs.dart';
 import 'package:graduation_project/widgets/components.dart';
 import 'package:graduation_project/widgets/custom_button.dart';
+import 'package:graduation_project/widgets/message/messages_methods.dart';
 import 'package:graduation_project/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -20,14 +21,14 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  Future<Response?>? _loginFuture; // Track the login process
+  Future<Response?>? _loginFuture;
 
   void _login(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
@@ -35,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
 
-    // Set the Future to track the login process
     setState(() {
       _loginFuture = ApiManager.login(email, password, context);
     });
@@ -184,14 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                // Show loading indicator
-                                return const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeCap: StrokeCap.round,
-                                        strokeWidth: 6,
-                                        color: primaryColor));
+                             
+                                return authButtonLoadingWidget();
                               } else if (snapshot.hasError) {
-                                // Show error message
                                 return const Center(
                                   child: Text("error"),
                                 );
@@ -200,31 +195,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (response.statusCode == 200) {
                                   final data = response.data;
                                   if (data["success"] == true) {
-                                    // CachedData.insertToCache(
-                                    //     key: "token",
-                                    //     value: data["results"]["token"]);
                                     CachedData.insertToCache(
                                         key: "token",
                                         value: data["results"]["token"]);
                                     WidgetsBinding.instance
                                         .addPostFrameCallback((_) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        closeIconColor: Colors.white,
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        
-                                        backgroundColor: Colors.lightBlue,
-                                        duration: const Duration(seconds: 2),
-                                        content: Text(
-                                          "You have been logged in successfully",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 13,
-                                          ),
-                                        ),
-                                      ));
+                                      // ScaffoldMessenger.of(context)
+                                      //     .showSnackBar(SnackBar(
+                                      //   closeIconColor: Colors.white,
+                                      //   clipBehavior:
+                                      //       Clip.antiAliasWithSaveLayer,
+                                      //   backgroundColor: Colors.lightBlue,
+                                      //   duration: const Duration(seconds: 2),
+                                      //   content: Text(
+                                      //     "You have been logged in successfully",
+                                      //     style: GoogleFonts.poppins(
+                                      //       color: Colors.white,
+                                      //       fontWeight: FontWeight.w600,
+                                      //       fontSize: 13,
+                                      //     ),
+                                      //   ),
+                                      // ));
+                                      showSuccessMessage(context,
+                                          "You have been logged in successfully");
                                       Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
@@ -233,15 +226,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         (route) => false,
                                       );
-                                      // showSuccessDialog(context,
-                                      //     "You have successfully logged in.");
+                               
                                     });
                                   } else {
-                                    // Show error message from the server
+                             
                                     return const Text("Error to Login");
                                   }
                                 } else {
-                                  // Handle other status codes
                                   return const Center(
                                       child: Text(
                                           "Login failed. Please try again."));
@@ -287,11 +278,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             //! singInWithGoogle();
                           },
-                          height: 54,
+                          height: 70,
                           elevation: 0,
                           color: const Color(0xFFFFFFFF),
                           shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(30),
                               borderSide: const BorderSide(
                                 color: Color(0xFFD8DADC),
                               )),
@@ -338,7 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontWeight: FontWeight.w600),
                                 ))
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

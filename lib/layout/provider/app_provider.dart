@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/modules/bot/bot_screen.dart';
 import 'package:graduation_project/modules/screens/history/history.dart';
 import 'package:graduation_project/modules/screens/home/home_screen.dart';
 import 'package:graduation_project/modules/screens/profile/profile.dart';
@@ -13,7 +14,9 @@ class AppProvider extends ChangeNotifier {
   final List<Widget> tabs = [
     const HomeScreen(),
     const History(),
+     const BotScreen(),
     Profile(),
+  
   ];
   final PageController pageController = PageController();
 
@@ -44,6 +47,11 @@ class AppProvider extends ChangeNotifier {
     skeltonLoading = false;
     notifyListeners();
     return skeltonLoading;
+  }
+
+  void resetTabIndex() {
+    selectedTabIndex = 0;
+    notifyListeners();
   }
 
   @override

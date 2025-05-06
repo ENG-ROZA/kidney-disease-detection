@@ -45,5 +45,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-</dict>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app needs permission to access the photo library to select images for scanning and analysis.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app needs permission to access the camera to scan images and analyze them for kidney disease detection.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app needs permission to access the microphone to record videos for medical consultations.</string>
+		<key>NSDocumentsFolderUsageDescription</key>
+    	<string>This app needs permission to save the scan result PDF to your documents folder.</string>
+	</dict>
 </plist>

@@ -1,30 +1,31 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/layout/home_layout.dart';
 import 'package:graduation_project/shared/utils/colors.dart';
-import 'package:graduation_project/shared/utils/constants.dart';
 
 void showLoading(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        actions: const [
+      return const AlertDialog(
+        actions: [
           Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Loading...",
-                  style: TextStyle(color: primaryColor),
-                ),
-                Spacer(),
-                CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.all(22),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Scanning in progress...",
+                    style: TextStyle(color: primaryColor),
+                  ),
+                  Spacer(),
+                  CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -56,8 +57,8 @@ void showError(BuildContext context, String defaultErrorMessage) {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Icon(
                     Icons.info_outline_rounded,
                     color: Color(0xFFFF3B30),
@@ -86,14 +87,14 @@ void showError(BuildContext context, String defaultErrorMessage) {
                     Navigator.of(context).pop();
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Color(0xFFFF3B30),
+                    backgroundColor: const Color(0xFFFF3B30),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "OK",
                     style: TextStyle(
                       color: Colors.white,
@@ -134,9 +135,9 @@ void warningDialog(BuildContext context, String message, String redButtonText,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     "Warning",
                     style: TextStyle(
@@ -155,6 +156,7 @@ void warningDialog(BuildContext context, String message, String redButtonText,
               ),
               const SizedBox(height: 27.0),
               Text(message,
+              textAlign: TextAlign.center,
                   style: GoogleFonts.merriweather(
                       fontSize: 18,
                       color: Colors.black.withOpacity(0.5),
@@ -247,7 +249,7 @@ void showSuccessDialog(BuildContext context, String message) {
               ),
             ),
             onPressed: () {
-              Navigator.pop(context); // Close the dialog
+              Navigator.pop(context);
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -255,8 +257,6 @@ void showSuccessDialog(BuildContext context, String message) {
                 ),
                 (route) => false,
               );
-          
-
             },
             child: const Text(
               "Finish",

@@ -171,10 +171,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   }
                   boardController.nextPage(
                       duration: const Duration(milliseconds: 750),
-                      curve: Curves.easeInOutBack);
+                      curve: Curves.linear);
                 },
                 shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none),
                 elevation: 0,
                 child: Text(

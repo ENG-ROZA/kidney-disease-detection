@@ -29,6 +29,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
       backgroundColor: const Color(0xFFFCFCFC),
       appBar: AppBar(
         automaticallyImplyLeading: true,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, size: 20),
           color: Colors.black,
@@ -154,7 +155,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                                 address: doctors[index].address ?? "",
                                 image: doctors[index].image?.url ?? "",
                                 name: doctors[index].name ?? "",
-                                rate: doctors[index].avgRating ?? 0,
+                                rate: doctors[index].avgRating ?? 0.0,
                                 doctorId: doctors[index].id ?? "",
                               ),
                             );

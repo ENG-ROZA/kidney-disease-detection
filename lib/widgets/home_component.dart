@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
-Widget kidnyResultWidget(BuildContext context,
+Widget kidnyResultWidget(
+  BuildContext context,
     {required String containerIcon,
     required Widget containerText,
     required double containerHeight,

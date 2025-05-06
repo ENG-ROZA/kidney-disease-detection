@@ -67,6 +67,15 @@ class BuildBottomNavigation extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
               GButton(
+                  icon: Icons.chat,
+                  iconColor: const Color(0xFF7f7b7c),
+                  iconActiveColor: Colors.black,
+                  text: "Chat",
+                  textStyle: GoogleFonts.crimsonText(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+              GButton(
                   icon: Icons.person,
                   iconSize: 25,
                   iconColor: const Color(0xFF7f7b7c),

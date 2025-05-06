@@ -35,20 +35,34 @@ dependencies:
   dio: ^5.7.0
   flutter:
     sdk: flutter
+  flutter_chat_types: ^3.6.2
+  flutter_chat_ui: ^1.6.15
   flutter_map: ^7.0.2
+  flutter_offline: ^4.0.0
   flutter_svg: ^2.0.17
   google_fonts: ^6.2.1
+  google_generative_ai: ^0.4.7
   google_nav_bar: ^5.0.7
+  http: ^1.3.0
+  image_picker: ^1.1.2
   lottie: any
   map_launcher: ^3.5.0
+  open_file: ^3.3.2
+  open_filex: ^4.7.0
+  path_provider: ^2.1.3
+  pdf: ^3.11.0
+  permission_handler: ^11.3.1
   pinput: ^5.0.1
   provider: ^6.1.2
   shared_preferences: ^2.3.3
   shared_preferences_web: ^2.2.1
+  shimmer: ^3.0.0
   skeletonizer: ^1.4.3
   smooth_page_indicator: ^1.2.0+3
   smooth_star_rating_null_safety: ^1.0.4+2
   url_launcher: ^6.3.1
+  uuid: ^4.5.1
+  # http_parser: ^4.0.2 # Added for MediaType
 
 dev_dependencies:
   flutter_lints: ^3.0.0

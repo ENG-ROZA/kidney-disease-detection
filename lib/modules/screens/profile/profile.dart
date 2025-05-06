@@ -2,16 +2,24 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/modules/auth/login/login.dart';
+import 'package:graduation_project/modules/screens/acccount/pages/change_password.dart';
 import 'package:graduation_project/modules/screens/acccount/pages/faq_page.dart';
 import 'package:graduation_project/modules/screens/acccount/pages/help_center.dart';
 import 'package:graduation_project/modules/screens/acccount/pages/privacy_policy.dart';
 import 'package:graduation_project/modules/screens/acccount/pages/profile_page.dart';
 import 'package:graduation_project/shared/network/local/cached_data.dart';
 import 'package:graduation_project/shared/network/remote/api_manager.dart';
+import 'package:graduation_project/layout/provider/app_provider.dart';
+import 'package:graduation_project/shared/utils/colors.dart';
 import 'package:graduation_project/shared/utils/dialogs.dart';
+import 'package:graduation_project/widgets/message/messages_methods.dart';
+import 'package:graduation_project/widgets/shimmer_effects.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
   static const String routeName = "Profile";
+
   final headerTextStyle = GoogleFonts.merriweather(
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -32,19 +40,9 @@ class Profile extends StatelessWidget {
         await CachedData.deleteFromCache("token");
         //! print("Post-deletion token: ${CachedData.getFromCache("token")}"); //? For debugging
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          showCloseIcon: true,
-          backgroundColor: Colors.lightBlue,
-          duration: const Duration(seconds: 5),
-          content: Text(
-            "You have been logged out successfully",
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
-          ),
-        ));
+        showSuccessMessage(context, "You have been logged out successfully");
+
+        Provider.of<AppProvider>(context, listen: false).resetTabIndex();
       }
     } catch (e) {
       showError(context, e.toString());
@@ -74,6 +72,7 @@ class Profile extends StatelessWidget {
             ),
           ),
         ));
+        Provider.of<AppProvider>(context, listen: false).resetTabIndex();
       }
     } catch (e) {
       showError(context, e.toString());
@@ -82,6 +81,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String token = CachedData.getFromCache("token");
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -97,7 +97,7 @@ class Profile extends StatelessWidget {
                     ),
                   );
                 },
-                child: Center(child: buildProfileItem())),
+                child: Center(child: buildProfileItem(token))),
             const SizedBox(height: 10),
             Text(
               "Privacy",
@@ -111,14 +111,28 @@ class Profile extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PrivacyPolicy(),
+                      builder: (context) => const PrivacyPolicy(),
                     ));
               },
-              child: buildDrawerItem("assets/images/privacy-policy.png",
+              child: buildDrawerItem("assets/images/privacy.png",
                   "Privacy Policy", Icons.arrow_forward_ios),
             ),
             const SizedBox(
-              height: 30,
+              height: 25,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangePassword(),
+                    ));
+              },
+              child: buildDrawerItem("assets/images/changepassword.png",
+                  "Change Password", Icons.arrow_forward_ios),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const Divider(
               thickness: 1.5,
@@ -144,7 +158,7 @@ class Profile extends StatelessWidget {
                     ));
               },
               child: buildDrawerItem(
-                "assets/images/faq.png",
+                "assets/images/faqq.png",
                 "FAQs",
                 Icons.arrow_forward_ios,
               ),
@@ -160,11 +174,11 @@ class Profile extends StatelessWidget {
                       builder: (context) => const HelpCenter(),
                     ));
               },
-              child: buildDrawerItem("assets/images/help-center.png",
+              child: buildDrawerItem("assets/images/helpcenter.png",
                   "Help Center", Icons.arrow_forward_ios),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Divider(
               thickness: 1.5,
@@ -172,7 +186,7 @@ class Profile extends StatelessWidget {
               color: Color(0xFFD1D5DB),
             ),
             const SizedBox(
-              height: 25,
+              height: 20,
             ),
             Text(
               "Dangerous Zone",
@@ -198,8 +212,8 @@ class Profile extends StatelessWidget {
                 ),
                 Image.asset(
                   "assets/images/delete.png",
-                  height: 25,
-                  width: 25,
+                  height: 30,
+                  width: 30,
                 ),
                 const SizedBox(
                   width: 18,
@@ -220,7 +234,7 @@ class Profile extends StatelessWidget {
               ]),
             ),
             const SizedBox(
-              height: 30,
+              height: 15,
             ),
             const Divider(
               thickness: 1.5,
@@ -228,7 +242,7 @@ class Profile extends StatelessWidget {
               color: Color(0xFFD1D5DB),
             ),
             const SizedBox(
-              height: 25,
+              height: 15,
             ),
             Text(
               "Sign Out",
@@ -253,7 +267,7 @@ class Profile extends StatelessWidget {
                   },
                 );
               },
-              child: buildDrawerItem("assets/images/logout.png", "Logout",
+              child: buildDrawerItem("assets/images/signout.png", "Logout",
                   Icons.arrow_forward_ios),
             ),
           ],
@@ -288,41 +302,37 @@ class Profile extends StatelessWidget {
       ]);
 }
 
-Widget buildProfileItem() {
-  return Container(
-    padding: const EdgeInsets.all(12.0),
-    margin: const EdgeInsets.all(5.0),
-    child: Column(
-      children: [
-        const Stack(
-          alignment: Alignment.topRight,
+Widget buildProfileItem(String token) {
+  return FutureBuilder(
+      future: ApiManager.getUserData(token),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return profileShimmerEffect();
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
+        final userData = snapshot.data?.results;
+
+        return Column(
           children: [
             CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage("assets/images/profile_image.png"),
-            ),
-            CircleAvatar(
-              backgroundColor: Color(0xFF666666),
-              radius: 8,
-              child: Icon(
-                Icons.edit,
-                color: Colors.white,
-                size: 10,
+              radius: 50,
+              child: Image.network(
+                userData?.user?.profileImage?.url.toString() ?? "",
+                fit: BoxFit.cover,
               ),
             ),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(
+              userData?.user?.userName.toString() ?? "",
+              style: GoogleFonts.merriweather(
+                  color: Colors.black.withOpacity(0.8),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold),
+            ),
           ],
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Text(
-          "Amir saied",
-          style: GoogleFonts.merriweather(
-              color: Colors.black.withOpacity(0.8),
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
-        ),
-      ],
-    ),
-  );
+        );
+      });
 }

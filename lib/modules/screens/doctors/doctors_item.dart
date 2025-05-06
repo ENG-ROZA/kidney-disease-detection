@@ -5,7 +5,7 @@ Widget doctorsItem(
     {required String image,
     required String name,
     required String address,
-    required int rate,
+    required double rate,
     required String doctorId}) {
   return Card(
     elevation: 0.01,
@@ -45,12 +45,18 @@ Widget doctorsItem(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         )),
-                    Text(address.substring(0, 14),
-                        style: GoogleFonts.crimsonText(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    
+                    Text(
+                      // address.length > 14 ? '${address.substring(0, 14)}...' : address,
+                      address,
+                      style: GoogleFonts.crimsonText(
+                        color: Colors.black.withOpacity(0.5),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis, //! Note : if the address is too long, it will be truncated with an ellipsis
+                      maxLines: 1,
+                    ),
                   ],
                 ),
               ],
@@ -69,7 +75,7 @@ Widget doctorsItem(
                 const SizedBox(
                   width: 3.5,
                 ),
-                Text("${rate.toInt()}",
+                Text("$rate",
                     style: GoogleFonts.poppins(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

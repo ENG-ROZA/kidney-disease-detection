@@ -8,6 +8,7 @@ import 'package:graduation_project/shared/utils/colors.dart';
 import 'package:graduation_project/shared/utils/dialogs.dart';
 import 'package:graduation_project/widgets/components.dart';
 import 'package:graduation_project/widgets/custom_button.dart';
+import 'package:graduation_project/widgets/message/messages_methods.dart';
 import 'package:graduation_project/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -102,7 +103,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                     Icons.error,
                                     color: Colors.red,
                                   )
-                                : null,
+                                : const Icon(
+                                    Icons.person_pin_rounded,
+                                    color: secondryColor,
+                                    size: 20,
+                                  ),
                             hintText: "Enter your name",
                             obscureText: false,
                             controller: _nameController,
@@ -127,7 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     color: Colors.red,
                                   )
                                 : const Icon(
-                                    Icons.email,
+                                    Icons.email_outlined,
                                     color: secondryColor,
                                     size: 20,
                                   ),
@@ -235,27 +240,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                      color: primaryColor),
-                                );
+                                return authButtonLoadingWidget();
                               } else if (snapshot.hasError) {
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text("Signup Failed"),
-                                      content: Text("Error: ${snapshot.error}"),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text("OK"),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  showErrorMessage(
+                                      context, snapshot.error.toString());
                                 });
                               } else if (snapshot.hasData) {
                                 final response = snapshot.data!;
@@ -265,8 +255,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                     data["success"] == true) {
                                   WidgetsBinding.instance
                                       .addPostFrameCallback((_) {
-                                    showSuccessDialog(context,
-                                        "Account created successfully.");
+                                    showSuccessMessage(
+                                        context, data["message"]);
                                   });
                                 } else {
                                   WidgetsBinding.instance
@@ -277,23 +267,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                         builder: (_) => const LoginScreen(),
                                       ),
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      padding: const EdgeInsets.all(8),
-                                      closeIconColor: Colors.white,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      showCloseIcon: true,
-                                      backgroundColor: Colors.lightBlue,
-                                      duration: const Duration(seconds: 6),
-                                      content: Text(
-                                        "Congratulations your account has been created but You have to verify your account first .",
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                    ));
+                                    showSuccessMessage(context, 
+                                    "your account has been created successfully, but You have to verify it first");
                                     // showDialog(
                                     //   context: context,
                                     //   builder: (context) => AlertDialog(
@@ -357,15 +332,15 @@ class _SignupScreenState extends State<SignupScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 12,
                           ),
                           MaterialButton(
                             onPressed: () {},
-                            height: 54,
+                            height: 70,
                             elevation: 0,
                             color: const Color(0xFFFFFFFF),
                             shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
                                   color: Color(0xFFD8DADC),
                                 )),
@@ -389,7 +364,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 30.0),
+                          const SizedBox(height: 15.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -402,8 +377,12 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, LoginScreen.routeName);
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen()),
+                                        (Route<dynamic> route) => false);
                                   },
                                   child: Text(
                                     "Login",

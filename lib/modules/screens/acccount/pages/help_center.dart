@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduation_project/shared/utils/colors.dart';
+import 'package:graduation_project/widgets/custom_button.dart';
+import 'package:graduation_project/widgets/message/messages_methods.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpCenter extends StatelessWidget {
   static const String routeName = "HelpCenter";
@@ -31,44 +35,44 @@ class HelpCenter extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset("assets/images/help_center_logo.png"),
-          const SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Text(
-              "We are here to help you with your AI\n Health needs!",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.merriweather(
-                  fontSize: 16, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("assets/images/help_center_logo.png"),
+            const SizedBox(
+              height: 50,
             ),
-          ),
-          const SizedBox(
-            height: 70,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: ElevatedButton.icon(
-                label: Text("Contact Us",
-                    style: GoogleFonts.merriweather(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    )),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2F79E8),
-                ),
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.call,
-                  color: Colors.white,
-                )),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text(
+                "If you have any problems or questions\nPlease contact us.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.merriweather(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: CustomButton(
+                  buttonText: "Contact Us",
+                  onPressed: () async {
+                    const whatsappUrl = "https://wa.me/201150101928";
+              
+                    if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
+                      await launchUrl(Uri.parse(whatsappUrl));
+                    } else {
+                      showErrorMessage(
+                          context, "WhatsApp is not installed on your device");
+                    }
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

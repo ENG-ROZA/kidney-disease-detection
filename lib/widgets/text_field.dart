@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
   final Widget? suffix;
+  final int? maxLength;
 
   const CustomTextFormField({
     super.key,
@@ -22,12 +23,13 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText,
     this.keyboardType,
     this.suffix,
+    this.maxLength,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      
+      maxLength: maxLength,
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       controller: controller,
@@ -35,18 +37,14 @@ class CustomTextFormField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         focusColor: primaryColor,
-        suffix:suffix ,
+        suffix: suffix,
         suffixIcon: suffixIcon,
-        
         errorStyle: GoogleFonts.crimsonText(
           fontSize: 10,
           fontWeight: FontWeight.normal,
         ),
         hintStyle: GoogleFonts.crimsonText(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: secondryColor
-        ),
+            fontSize: 16, fontWeight: FontWeight.w400, color: secondryColor),
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Color(0xFF9EA1AE)),
             borderRadius: BorderRadius.all(Radius.circular(28.0))),

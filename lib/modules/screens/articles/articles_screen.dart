@@ -4,6 +4,7 @@ import 'package:graduation_project/models/articles_model.dart';
 import 'package:graduation_project/modules/screens/articles/articles_details.dart';
 import 'package:graduation_project/modules/screens/articles/articles_search.dart';
 import 'package:graduation_project/shared/utils/colors.dart';
+import 'package:graduation_project/widgets/shimmer_effects.dart';
 
 import '../../../shared/network/remote/api_manager.dart';
 
@@ -97,12 +98,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 future: _articlesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      color: primaryColor,
-                      strokeCap: StrokeCap.round,
-                      strokeWidth: 6,
-                    ));
+                    return latestArticleShimmerEffect();
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
@@ -175,12 +171,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   future: _articlesFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: primaryColor,
-                        strokeCap: StrokeCap.round,
-                        strokeWidth: 6,
-                      ));
+                      return Center(child: baseArticleShimmerEffect());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }

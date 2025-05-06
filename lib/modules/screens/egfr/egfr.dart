@@ -1,97 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-// class Egfr extends StatefulWidget {
-//   static const String routeName = 'egfr';
-//   const Egfr({super.key});
-
-//   @override
-//   State<Egfr> createState() => _EgfrState();
-// }
-
-// class _EgfrState extends State<Egfr> {
-//   final TextEditingController _dropdownController = TextEditingController();
-
-//   final List<String> _items = ["Male", "Female"];
-
-//   @override
-//   void dispose() {
-//     _dropdownController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         title: const Text(
-//           "eGFR Calculator",
-//           style: TextStyle(color: Colors.black),
-//         ),
-//         centerTitle: true,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           children: [
-//             Text(
-//               "eGFR",
-//               textAlign: TextAlign.center,
-//               style: GoogleFonts.merriweather(
-//                   fontSize: 15, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             Text(
-//               "This tool helps you to know your kidney status according to eGFR.It needs some information about you to calculate your eGFR to know your kidney status.",
-//               textAlign: TextAlign.center,
-//               style: GoogleFonts.merriweather(
-//                   color: Colors.black.withOpacity(0.5),
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.normal),
-//             ),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-//               IconButton(onPressed: () {}, icon: const Icon(Icons.male)),
-//               IconButton(onPressed: () {}, icon: const Icon(Icons.female)),
-//             ]),
-//             DropdownButtonFormField<String>(
-//               borderRadius: BorderRadius.circular(8.0),
-//               value: _dropdownController.text.isEmpty
-//                   ? null
-//                   : _dropdownController.text,
-//               decoration: const InputDecoration(
-//                 labelText: "Gender",
-//                 border: OutlineInputBorder(),
-//               ),
-//               items: _items.map((String item) {
-//                 return DropdownMenuItem<String>(
-//                   value: item,
-//                   child: Text(item),
-//                 );
-//               }).toList(),
-//               onChanged: (value) {
-//                 if (value != null) {
-//                   _dropdownController.text = value; // Update controller
-//                 }
-//               },
-//             ),
-
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/shared/utils/colors.dart';
@@ -100,6 +7,8 @@ import 'package:graduation_project/widgets/text_field.dart';
 
 class Egfr extends StatefulWidget {
   static const String routeName = 'egfr';
+
+  const Egfr({super.key});
   @override
   _EGFRScreenState createState() => _EGFRScreenState();
 }
@@ -348,7 +257,7 @@ class _EGFRScreenState extends State<Egfr> {
                   fontSize: 15, fontWeight: FontWeight.bold),
             ),
             Text(
-              "Kidney Function Level  \n '$interpretation",
+              "Kidney Function Level  \n '$interpretation'",
               textAlign: TextAlign.center,
               style: GoogleFonts.merriweather(
                   fontSize: 15, fontWeight: FontWeight.bold),

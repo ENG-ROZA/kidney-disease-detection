@@ -9,6 +9,7 @@ import 'package:graduation_project/modules/auth/forget_password/verify_email.dar
 import 'package:graduation_project/modules/auth/login/login.dart';
 import 'package:graduation_project/modules/auth/singup/singup.dart';
 import 'package:graduation_project/modules/onboarding/onboarding.dart';
+import 'package:graduation_project/modules/screens/acccount/pages/change_password.dart';
 import 'package:graduation_project/modules/screens/articles/articles_screen.dart';
 import 'package:graduation_project/modules/screens/doctors/doctors_details.dart';
 import 'package:graduation_project/modules/screens/doctors/doctors_screen.dart';
@@ -21,6 +22,7 @@ import 'package:graduation_project/modules/screens/doctors/review/reviews_screen
 import 'package:graduation_project/modules/screens/egfr/egfr.dart';
 import 'package:graduation_project/modules/screens/home/home_screen.dart';
 import 'package:graduation_project/modules/screens/profile/profile.dart';
+import 'package:graduation_project/modules/screens/scan/scan_details.dart';
 import 'package:graduation_project/modules/screens/scan/scan_screen.dart';
 import 'package:graduation_project/modules/splash/splash_screen.dart';
 import 'package:graduation_project/shared/network/local/cached_data.dart';
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: SplashScreen(),
       theme: ThemeData(
           //! These values is a defualt if you don't add a properities for the custom button .
           textSelectionTheme: TextSelectionThemeData(
@@ -57,7 +59,7 @@ class MyApp extends StatelessWidget {
           ),
           appBarTheme: AppBarTheme()),
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         HomeLayout.routeName: (_) => HomeLayout(),
@@ -81,6 +83,8 @@ class MyApp extends StatelessWidget {
         ScanScreen.routeName: (_) => ScanScreen(),
         UserReviewsScreen.routeName: (_) => UserReviewsScreen(),
         EditReview.routeName: (_) => EditReview(),
+        ScanDetails.routeName: (_) => ScanDetails(),
+        ChangePassword.routeName: (_) => ChangePassword(),
       },
     );
   }

@@ -39,33 +39,42 @@ class Doctor {
   });
 
   Doctor.fromJson(dynamic json) {
-    image = json['image'] != null ? ImageModel.fromJson(json['image']) : null;
-    mapLocation = json['mapLocation'] != null
-        ? MapLocation.fromJson(json['mapLocation'])
-        : null;
+    // Handle image
+    image = json['image'] != null ? Image.fromJson(json['image']) : null;
+
+    // Safely parse mapLocation only if it's a Map
+    if (json['mapLocation'] is Map<String, dynamic>) {
+      mapLocation = MapLocation.fromJson(json['mapLocation']);
+    } else {
+      mapLocation = null; // Skip invalid mapLocation
+    }
+
+    // String fields
     id = json['_id'];
     name = json['name'];
     phoneNumber = json['phoneNumber'];
     address = json['address'];
     aboutDoctor = json['aboutDoctor'];
-    avgRating = json['avgRating'];
-    experience = json['experience'];
-    createdAt = DateTime.parse(json['createdAt']);
-    updatedAt = DateTime.parse(json['updatedAt']);
-    v = json['__v'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+
+    // Numeric fields with safe parsing
+    avgRating = double.tryParse(json['avgRating'].toString()) ?? 0.0;
+    experience = int.tryParse(json['experience'].toString()) ?? 0;
+    v = int.tryParse(json['__v'].toString()) ?? 0;
   }
 
-  ImageModel? image;
+  Image? image;
   MapLocation? mapLocation;
   String? id;
   String? name;
   String? phoneNumber;
   String? address;
   String? aboutDoctor;
-  int? avgRating;
+  double? avgRating;
   int? experience;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
   int? v;
 
   Map<String, dynamic> toJson() {
@@ -83,20 +92,20 @@ class Doctor {
     map['aboutDoctor'] = aboutDoctor;
     map['avgRating'] = avgRating;
     map['experience'] = experience;
-    map['createdAt'] = createdAt?.toIso8601String();
-    map['updatedAt'] = updatedAt?.toIso8601String();
+    map['createdAt'] = createdAt;
+    map['updatedAt'] = updatedAt;
     map['__v'] = v;
     return map;
   }
 }
 
-class ImageModel {
-  ImageModel({
+class Image {
+  Image({
     this.url,
     this.id,
   });
 
-  ImageModel.fromJson(dynamic json) {
+  Image.fromJson(dynamic json) {
     url = json['url'];
     id = json['id'];
   }
@@ -119,8 +128,8 @@ class MapLocation {
   });
 
   MapLocation.fromJson(dynamic json) {
-    lng = json['lng'];
-    lat = json['lat'];
+    lng = json['lng']?.toString(); // Force string conversion
+    lat = json['lat']?.toString();
   }
 
   String? lng;

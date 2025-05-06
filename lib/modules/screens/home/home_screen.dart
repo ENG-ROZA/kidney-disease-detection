@@ -1,243 +1,15 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:graduation_project/modules/screens/articles/articles_screen.dart';
-// import 'package:graduation_project/modules/screens/egfr/egfr.dart';
-// import '../../../widgets/home_component.dart';
-// import '../doctors/doctors_screen.dart';
-
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
-//   static const String routeName = "HomeScreen";
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: PreferredSize(
-//         preferredSize: const Size.fromHeight(200),
-//         child: AppBar(
-
-//           iconTheme: const IconThemeData(color: Colors.white),
-//           shape: const OutlineInputBorder(
-//             borderSide: BorderSide.none,
-//             borderRadius: BorderRadius.only(
-//               bottomRight: Radius.circular(28),
-//               bottomLeft: Radius.circular(28),
-//             ),
-//           ),
-//           centerTitle: true,
-//           title: Text(
-//             "Renalyze",
-//             style: GoogleFonts.aBeeZee(
-//                 textStyle: GoogleFonts.protestRevolution(
-//               textStyle: const TextStyle(
-//                 fontSize: 33,
-//                 fontWeight: FontWeight.normal,
-//                 color: Color(0xFFFFFFFF),
-//               ),
-//             )),
-//           ),
-//           flexibleSpace: Container(
-//             alignment: Alignment.bottomCenter,
-//             decoration: const BoxDecoration(
-//                 gradient: LinearGradient(
-//                   colors: [
-//                     Color(0xFF2F79E8),
-//                     Color(0xFF9AD7F1),
-//                   ],
-//                   begin: Alignment.topCenter,
-//                   end: Alignment.bottomCenter,
-//                 ),
-//                 borderRadius: BorderRadius.only(
-//                   bottomRight: Radius.circular(28),
-//                   bottomLeft: Radius.circular(28),
-//                 )),
-//             child: Image.asset(
-//               "assets/images/authlogo.png",
-//               scale: 2.5,
-//             ),
-//           ),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(10.0),
-//           child: Column(
-//             children: [
-//               GestureDetector(
-//                 onTap: () {
-//                   Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                           builder: (context) => const DoctorsScreen()));
-//                 },
-//                 child: Row(
-//                   children: [
-//                   kidnyResultWidget(
-//                     containerHeight: 90,
-//                     containerWidth: 285,
-//                     context,
-//                     containerIcon: "assets/images/home_doctor_icon.png",
-//                     containerText: Text("Doctors",
-//                         style: GoogleFonts.merriweather(
-//                             color: const Color(0xFF2F79E8),
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.bold)),
-//                   ),
-//                   const SizedBox(
-//                     width: 3,
-//                   ),
-//                   GestureDetector(
-//                     onTap: () {
-//                       Navigator.push(context,
-//                           MaterialPageRoute(builder: (context) => Egfr()));
-//                     },
-//                     child: kidnyResultWidget(
-//                       containerHeight: 90,
-//                       containerWidth: 105,
-//                       context,
-//                       containerIcon: "assets/images/home_egfr_icon.png",
-//                       containerText: Text("Egfr",
-//                           style: GoogleFonts.crimsonText(
-//                               color: const Color(0xFF2F79E8),
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.bold)),
-//                     ),
-//                   ),
-//                 ]),
-//               ),
-//               const SizedBox(
-//                 height: 8.0,
-//               ),
-//               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-//                 GestureDetector(
-//                   onTap: () {
-//                     //! Navigate To Community .
-//                   },
-//                   child: kidnyResultWidget(
-//                     containerHeight: 80,
-//                     containerWidth: 194,
-//                     context,
-//                     containerIcon: "assets/images/home_community_icon.png",
-//                     containerText: Text("Community",
-//                         style: GoogleFonts.crimsonText(
-//                             color: const Color(0xFF2F79E8),
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.bold)),
-//                   ),
-//                 ),
-//                 const SizedBox(
-//                   width: 3,
-//                 ),
-//                 GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                           builder: (context) => const ArticlesScreen()),
-//                     );
-//                   },
-//                   child: kidnyResultWidget(
-//                     containerHeight: 80,
-//                     containerWidth: 197,
-//                     context,
-//                     containerIcon: "assets/images/home_articles_icon.png",
-//                     containerText: Text("articles",
-//                         style: GoogleFonts.crimsonText(
-//                             color: const Color(0xFF2F79E8),
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.bold)),
-//                   ),
-//                 ),
-//               ]),
-//               const SizedBox(
-//                 height: 20,
-//               ),
-//               // Padding(
-//               //   padding: const EdgeInsets.only(left: 7.0),
-//               //   child: Row(
-//               //     children: [
-//               //       Text("Articles",
-//               //           style: GoogleFonts.crimsonText(
-//               //               color: const Color(0xFF000000),
-//               //               fontSize: 14,
-//               //               fontWeight: FontWeight.bold)),
-//               //       const Spacer(),
-//               //       TextButton(
-//               //         onPressed: () {
-//               //           //! Navigate To All Articles .
-//               //         },
-//               //         child: Text("See all",
-//               //             style: GoogleFonts.crimsonText(
-//               //                 color: Colors.grey.shade600,
-//               //                 fontSize: 12,
-//               //                 fontWeight: FontWeight.bold)),
-//               //       ),
-//               //     ],
-//               //   ),
-//               // ),
-//               // const SizedBox(
-//               //   height: 15.0,
-//               // ),
-//               // articlesWidget(context),
-//               // const SizedBox(
-//               //   height: 20,
-//               // ),
-//               Padding(
-//                 padding: const EdgeInsets.only(left: 7.0),
-//                 child: Row(
-//                   children: [
-//                     Text("Top Rated Doctors",
-//                         style: GoogleFonts.crimsonText(
-//                             color: const Color(0xFF000000),
-//                             fontSize: 14,
-//                             fontWeight: FontWeight.bold)),
-//                     const Spacer(),
-//                     TextButton(
-//                       onPressed: () {
-//                         //! Navigate To All Articles .
-//                       },
-//                       child: Text("See all",
-//                           style: GoogleFonts.crimsonText(
-//                               color: Colors.grey.shade600,
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.bold)),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 25,
-//               ),
-//               SizedBox(
-//                 height: 150,
-//                 child: ListView.separated(
-//                   shrinkWrap: true,
-//                   separatorBuilder: (context, index) => const SizedBox(
-//                     width: 10,
-//                   ),
-//                   scrollDirection: Axis.horizontal,
-//                   itemBuilder: (context, index) => doctorWidget(context),
-//                   itemCount: 6,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/models/doctors_model.dart';
+import 'package:graduation_project/models/top_rated_doctors.dart';
+import 'package:graduation_project/modules/screens/acccount/pages/profile_page.dart';
 import 'package:graduation_project/modules/screens/articles/articles_screen.dart';
 import 'package:graduation_project/modules/screens/doctors/doctors_details.dart';
 import 'package:graduation_project/modules/screens/egfr/egfr.dart';
 import 'package:graduation_project/modules/screens/scan/scan_screen.dart';
+import 'package:graduation_project/shared/network/local/cached_data.dart';
 import 'package:graduation_project/shared/network/remote/api_manager.dart';
-import 'package:graduation_project/shared/utils/colors.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:graduation_project/widgets/shimmer_effects.dart';
 import '../../../widgets/home_component.dart';
 import '../doctors/doctors_screen.dart';
 
@@ -256,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
         (screenWidth / 414); //* 414 is a reference width (iPhone 12 Pro Max)
   }
 
-  late Future<DoctorsResponse> _doctorsFuture;
+  late Future<TopRatedDoctors> _doctorsFuture;
 
   @override
   void initState() {
-    _doctorsFuture = ApiManager.getDoctors();
+    _doctorsFuture = ApiManager.getTopRatedDoctors();
     super.initState();
   }
 
@@ -268,7 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    Widget buildLeadingWidget(BuildContext context) {
+    String token = CachedData.getFromCache("token");
+    Widget buildLeadingWidget(BuildContext context,
+        {required String userName,
+        required String userEmail,
+        required String userImage}) {
       return Padding(
         padding: const EdgeInsets.only(
           top: 9,
@@ -278,11 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              radius: 22,
-              backgroundImage: NetworkImage(
-                "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              ),
+            CircleAvatar(
+              radius: 26,
+              backgroundImage: NetworkImage(userImage,scale: 6),
             ),
             const SizedBox(
               width: 2,
@@ -291,12 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Ahmed",
+                Text(userName,
                     style: GoogleFonts.crimsonText(
                         fontWeight: FontWeight.w700,
                         fontSize: getResponsiveFontSize(context, 10),
                         color: Colors.white)),
-                Text("Ahmed@gmail.com",
+                Text(userEmail.substring(0, userEmail.indexOf("@")),
                     style: GoogleFonts.crimsonText(
                         fontWeight: FontWeight.w400,
                         fontSize: getResponsiveFontSize(context, 8),
@@ -322,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ScanScreen()),
+                MaterialPageRoute(builder: (context) => ScanScreen()),
               );
             },
             child: Row(
@@ -393,7 +167,26 @@ class _HomeScreenState extends State<HomeScreen> {
               scale: 2.5,
             ),
           ),
-          leading: buildLeadingWidget(context),
+          leading: FutureBuilder(
+              future: ApiManager.getUserData(token),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return homeUserDataShimmerEffect();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                final userData = snapshot.data?.results;
+                return InkWell(
+                  onTap: () =>
+                      Navigator.pushNamed(context, ProfilePage.routeName),
+                  child: buildLeadingWidget(
+                      userImage:
+                          userData?.user?.profileImage?.url.toString() ?? "",
+                      userName: userData?.user?.userName.toString() ?? "",
+                      userEmail: userData?.user?.email.toString() ?? "",
+                      context),
+                );
+              }),
           leadingWidth: screenWidth * 0.3,
           actions: [
             Padding(
@@ -426,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(40.0),
                     border: Border.all(
-                        color: const Color(0xFF2949C7).withOpacity(0.25),
+                      color: const Color(0xFF2949C7).withOpacity(0.25),
                     )),
                 child: homeButton(),
               ),
@@ -565,13 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 future: _doctorsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                        strokeCap: StrokeCap.round,
-                        strokeWidth: 6,
-                      ),
-                    );
+                    return homeDoctorWidgetShimmerEffect(
+                        screenHeight, screenWidth);
                   }
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
@@ -603,7 +391,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     doctorImage:
                                         doctors[index].image?.url ?? "",
                                     doctorName: doctors[index].name ?? "",
-                                    rating: doctors[index].avgRating ?? 0,
+                                    rating:
+                                        (doctors[index].avgRating ?? 0).toInt(),
                                     numberOfRating:
                                         doctors[index].avgRating.toString(),
                                   ),

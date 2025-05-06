@@ -30,6 +30,8 @@ Changes to Terms:
 We may update these terms at any time. Continued use means you accept the updated terms.
   ''';
 
+  const PrivacyPolicy({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

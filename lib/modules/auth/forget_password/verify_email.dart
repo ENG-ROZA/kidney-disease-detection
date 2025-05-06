@@ -44,6 +44,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           leading: IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, LoginScreen.routeName);

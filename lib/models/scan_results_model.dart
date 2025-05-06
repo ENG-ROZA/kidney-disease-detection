@@ -30,7 +30,7 @@ class ScanResultHistoryModel {
 class ScanResult {
   ScanResult({
     this.scanFile,
-    this.id,
+    this.scanId,
     this.userId,
     this.diagnosis,
     this.confidence,
@@ -47,7 +47,7 @@ class ScanResult {
     scanFile = json['scanFile'] != null
         ? ScanFile.fromJson(json['scanFile'])
         : null;
-    id = json['_id'];
+    scanId = json['_id'];
     userId = json['userId'];
     diagnosis = json['diagnosis'];
     confidence = json['confidence'];
@@ -65,7 +65,7 @@ class ScanResult {
   }
 
   ScanFile? scanFile;
-  String? id;
+  String? scanId;
   String? userId;
   String? diagnosis;
   String? confidence;
@@ -82,7 +82,7 @@ class ScanResult {
     if (scanFile != null) {
       data['scanFile'] = scanFile?.toJson();
     }
-    data['_id'] = id;
+    data['_id'] = scanId;
     data['userId'] = userId;
     data['diagnosis'] = diagnosis;
     data['confidence'] = confidence;

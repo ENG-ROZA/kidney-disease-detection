@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduation_project/modules/screens/scan/scan_details.dart';
 import 'package:graduation_project/shared/network/local/cached_data.dart';
 import 'package:graduation_project/shared/network/remote/api_manager.dart';
 import 'package:graduation_project/shared/utils/colors.dart';
@@ -37,17 +38,54 @@ class History extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           }
-          final scanResult = snapshot.data?.results;
+          final scanResult = snapshot.data?.results ?? [];
+          if (scanResult.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/history.png",
+                      scale: 5,
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      textAlign: TextAlign.center,
+                      'There is no history yet',
+                      style: GoogleFonts.crimsonText(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
           return ListView.separated(
-            itemBuilder: (context, index) => buildResultsHistoryWidget(
-              context,
-              dateOfResult: scanResult?[0].createdAt.toString() ?? "",
-              scanResultImage: scanResult?[0].scanFile?.url ?? "",
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ScanDetails.routeName,
+                  arguments: scanResult[index].scanId,
+                );
+              },
+              child: buildResultsHistoryWidget(
+                context,
+                dateOfResult: scanResult[index].createdAt.toString(),
+                scanResultImage: scanResult[index].scanFile?.url.toString() ?? "",
+              ),
             ),
             separatorBuilder: (context, index) => const SizedBox(
-              height: 15,
+              height: 5,
             ),
-            itemCount: scanResult?.length ?? 0,
+            itemCount: scanResult.length,
           );
         },
       ),

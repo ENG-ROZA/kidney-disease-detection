@@ -44,8 +44,11 @@ class Doctor {
   });
 
   Doctor.fromJson(dynamic json) {
-    image = json['image'] != null ? ImageModel.fromJson(json['image']) : null;
-    mapLocation = json['mapLocation'] != null
+    image = json['image'] != null && json['image'] is Map<String, dynamic> 
+        ? ImageModel.fromJson(json['image']) 
+        : null;
+    // Check if mapLocation is a Map before parsing
+    mapLocation = json['mapLocation'] != null && json['mapLocation'] is Map<String, dynamic> 
         ? MapLocation.fromJson(json['mapLocation'])
         : null;
     id = json['_id'];
@@ -53,7 +56,7 @@ class Doctor {
     phoneNumber = json['phoneNumber'];
     address = json['address'];
     aboutDoctor = json['aboutDoctor'];
-    avgRating = json['avgRating'];
+    avgRating = double.tryParse(json['avgRating'].toString());
     experience = json['experience'];
     createdAt = DateTime.parse(json['createdAt']);
     updatedAt = DateTime.parse(json['updatedAt']);
@@ -67,7 +70,7 @@ class Doctor {
   String? phoneNumber;
   String? address;
   String? aboutDoctor;
-  int? avgRating;
+  double? avgRating;
   int? experience;
   DateTime? createdAt;
   DateTime? updatedAt;
