@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project/global/app/theme/theme_data.dart';
 import 'package:graduation_project/layout/home_layout.dart';
 import 'package:graduation_project/layout/provider/app_provider.dart';
 import 'package:graduation_project/modules/auth/forget_password/otp_screen.dart';
@@ -44,7 +45,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: SplashScreen.routeName,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
           //! These values is a defualt if you don't add a properities for the custom button .
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: primaryColor,
@@ -57,9 +61,12 @@ class MyApp extends StatelessWidget {
               shape: const StadiumBorder(),
             ),
           ),
-          appBarTheme: AppBarTheme()),
-      debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.routeName,
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            elevation: 0.0,
+            
+          )),
       routes: {
         HomeScreen.routeName: (_) => HomeScreen(),
         HomeLayout.routeName: (_) => HomeLayout(),
@@ -83,7 +90,7 @@ class MyApp extends StatelessWidget {
         ScanScreen.routeName: (_) => ScanScreen(),
         UserReviewsScreen.routeName: (_) => UserReviewsScreen(),
         EditReview.routeName: (_) => EditReview(),
-        ScanDetails.routeName: (_) => ScanDetails(),
+   //     ScanDetails.routeName: (_) => ScanDetails(),
         ChangePassword.routeName: (_) => ChangePassword(),
       },
     );

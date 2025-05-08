@@ -55,9 +55,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         actions: [
           TextButton(
             onPressed: () {
@@ -136,22 +135,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              "  ${model.title} ",
-              style: GoogleFonts.merriweather(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black.withOpacity(0.8)),
-            ),
+            Text("  ${model.title} ",
+                style: GoogleFonts.merriweather(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.black.withOpacity(0.8))),
             Align(
               alignment: Alignment.center,
               child: Text(
                 model.body,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.crimsonText(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w300,
-                    color: secondryColor),
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black.withOpacity(0.5),
+                ),
               ),
             ),
             const Spacer(),

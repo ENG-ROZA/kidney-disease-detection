@@ -5,6 +5,7 @@ import 'package:graduation_project/layout/provider/app_provider.dart';
 import 'package:graduation_project/modules/auth/forget_password/reset_password.dart';
 import 'package:graduation_project/modules/auth/forget_password/verify_email.dart';
 import 'package:graduation_project/shared/utils/colors.dart';
+import 'package:graduation_project/widgets/components.dart';
 import 'package:graduation_project/widgets/custom_button.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,6 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve email from route arguments
     final routeArgs = ModalRoute.of(context)?.settings.arguments;
     if (routeArgs != null) {
       email = routeArgs as String;
@@ -63,8 +63,10 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        scrolledUnderElevation: 0.0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () => Navigator.pushNamed(context, VerifyEmail.routeName),
@@ -164,8 +166,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     future: _otpCodeFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(
-                            color: primaryColor);
+                        return authButtonLoadingWidget();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (snapshot.hasData) {

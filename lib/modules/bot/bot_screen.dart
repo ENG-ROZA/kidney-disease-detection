@@ -65,7 +65,7 @@ class _BotScreenState extends State<BotScreen> {
         }
       }
 
-      await OpenFilex.open(localPath);
+     // await OpenFilex.open(localPath);
     }
   }
 
@@ -155,7 +155,7 @@ class _BotScreenState extends State<BotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

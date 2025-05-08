@@ -53,10 +53,8 @@ class _CustomMessageWidgetState extends State<CustomMessageWidget>
 
   @override
   Widget build(BuildContext context) {
-    // Background color for both success and error
-    final backgroundColor = const Color(0xFFECFDF3);
+    const backgroundColor = Color(0xFFECFDF3);
 
-    // Success: #008a2e | Error: red
     final messageColor = widget.type == MessageType.success
         ? const Color(0xFF008A2E)
         : const Color(0xFFe50000);

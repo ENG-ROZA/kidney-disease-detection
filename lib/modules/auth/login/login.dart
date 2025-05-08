@@ -11,6 +11,7 @@ import 'package:graduation_project/shared/utils/dialogs.dart';
 import 'package:graduation_project/widgets/components.dart';
 import 'package:graduation_project/widgets/custom_button.dart';
 import 'package:graduation_project/widgets/message/messages_methods.dart';
+import 'package:graduation_project/widgets/scan_animation.dart';
 import 'package:graduation_project/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var provider = Provider.of<AppProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -90,20 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           hintText: "Enter your email",
                           controller: _emailController,
-                          suffixIcon: provider.hasError
-                              ? const Icon(
-                                  Icons.error,
-                                  color: Colors.red,
-                                )
-                              : const Icon(
-                                  Icons.email_outlined,
-                                  color: secondryColor,
-                                  size: 20,
-                                ),
+                          suffixIcon: const Icon(
+                            Icons.email_outlined,
+                            color: secondryColor,
+                            size: 20,
+                          ),
                           obscureText: false,
                           validator: (text) {
                             if (text == null || text.trim().isEmpty) {
-                              // provider.showSuffixIconInError(ishasError: true);
                               return 'Email must not be empty. Please try again.';
                             }
                             final emailRegExp = RegExp(
@@ -184,7 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                             
                                 return authButtonLoadingWidget();
                               } else if (snapshot.hasError) {
                                 return const Center(
@@ -200,22 +194,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         value: data["results"]["token"]);
                                     WidgetsBinding.instance
                                         .addPostFrameCallback((_) {
-                                      // ScaffoldMessenger.of(context)
-                                      //     .showSnackBar(SnackBar(
-                                      //   closeIconColor: Colors.white,
-                                      //   clipBehavior:
-                                      //       Clip.antiAliasWithSaveLayer,
-                                      //   backgroundColor: Colors.lightBlue,
-                                      //   duration: const Duration(seconds: 2),
-                                      //   content: Text(
-                                      //     "You have been logged in successfully",
-                                      //     style: GoogleFonts.poppins(
-                                      //       color: Colors.white,
-                                      //       fontWeight: FontWeight.w600,
-                                      //       fontSize: 13,
-                                      //     ),
-                                      //   ),
-                                      // ));
                                       showSuccessMessage(context,
                                           "You have been logged in successfully");
                                       Navigator.pushAndRemoveUntil(
@@ -226,10 +204,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         (route) => false,
                                       );
-                               
                                     });
                                   } else {
-                             
                                     return const Text("Error to Login");
                                   }
                                 } else {
@@ -277,6 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         MaterialButton(
                           onPressed: () {
                             //! singInWithGoogle();
+                            progressDialog(context);
                           },
                           height: 70,
                           elevation: 0,

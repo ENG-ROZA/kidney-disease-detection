@@ -54,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     var provider = Provider.of<AppProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -98,16 +98,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           headTitlesOfTextField("Name"),
                           CustomTextFormField(
                             keyboardType: TextInputType.name,
-                            suffixIcon: provider.hasError
-                                ? const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  )
-                                : const Icon(
-                                    Icons.person_pin_rounded,
-                                    color: secondryColor,
-                                    size: 20,
-                                  ),
+                            suffixIcon: const Icon(
+                              Icons.person_pin_rounded,
+                              color: secondryColor,
+                              size: 20,
+                            ),
                             hintText: "Enter your name",
                             obscureText: false,
                             controller: _nameController,
@@ -126,28 +121,19 @@ class _SignupScreenState extends State<SignupScreen> {
                             hintText: "Enter your email",
                             obscureText: false,
                             controller: _emailController,
-                            suffixIcon: provider.hasError
-                                ? const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  )
-                                : const Icon(
-                                    Icons.email_outlined,
-                                    color: secondryColor,
-                                    size: 20,
-                                  ),
+                            suffixIcon: const Icon(
+                              Icons.email_outlined,
+                              color: secondryColor,
+                              size: 20,
+                            ),
                             validator: (text) {
                               if (text == null || text.trim().isEmpty) {
-                                provider.showSuffixIconInError(
-                                    ishasError: true);
                                 return 'Email must not be empty. Please try again.';
                               }
                               final emailRegExp = RegExp(
                                   r"^(?=\S)([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$");
 
                               if (!emailRegExp.hasMatch(text)) {
-                                provider.showSuffixIconInError(
-                                    ishasError: true);
                                 return "Please enter a valid email address (example@mail.com).";
                               }
                               return null;
@@ -267,33 +253,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                         builder: (_) => const LoginScreen(),
                                       ),
                                     );
-                                    showSuccessMessage(context, 
-                                    "your account has been created successfully, but You have to verify it first");
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (context) => AlertDialog(
-                                    //     title: const Text("Signup"),
-                                    //     content: Text(
-                                    //       data["message"] ??
-                                    //           "Unknown error occurred",
-                                    //     ),
-                                    //     actions: [
-                                    //       TextButton(
-                                    //         onPressed: () {
-                                    //           Navigator.pop(context);
-                                    //           Navigator.pushReplacement(
-                                    //             context,
-                                    //             MaterialPageRoute(
-                                    //               builder: (_) =>
-                                    //                   const LoginScreen(),
-                                    //             ),
-                                    //           );
-                                    //         },
-                                    //         child: const Text("OK"),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // );
+                                    showSuccessMessage(context,
+                                        "your account created verify it");
                                   });
                                 }
                               }
